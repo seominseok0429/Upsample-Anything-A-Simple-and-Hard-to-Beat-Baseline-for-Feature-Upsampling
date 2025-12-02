@@ -25,9 +25,9 @@ Minseok Seo, Mark Hamilton, Changick Kim
 
 ```python
 
-img_path = "sample.png"
+img_path = "../img/sample.png"
 img = Image.open(img_path).convert("RGB").resize((224, 224), Image.BICUBIC) # <- Any Target Size
-lr_feature = dinov2_infer(img_path) # <- any low resolution modalities (e.g. depth, Probability map, feature map)
+lr_feature = dinov2_infer(img) # <- any low resolution modalities (e.g. depth, Probability map, feature map)
 hr_feature = UPA(img, lr_feature) 
 ```
 
