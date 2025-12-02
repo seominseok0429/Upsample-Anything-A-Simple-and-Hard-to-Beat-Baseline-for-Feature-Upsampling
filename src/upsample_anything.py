@@ -2,6 +2,7 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
+import torchvision.transforms as T
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import LambdaLR
 
@@ -274,4 +275,25 @@ class LearnablePixelwiseAnisoJBU_NoParent(nn.Module):
             center_mode=self.center_mode,
             use_autocast=self.use_autocast,
         )
+
+
+def dinov2_infer(img):
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    dinov2_vits14 = torch.hub.load('facebookresearch/dinov2', 'dinov2_vits14').to(device).eval()
+
+    transform = T.Compose([
+        T.ToTensor(),
+        T.Normalize((0.485,0.456,0.406), (0.229,0.224,0.225))
+    ])
+    img_t = transform(img).unsqueeze(0).to(device, dtype=torch.float32)
+
+    with torch.no_grad():
+        with torch.cuda.amp.autocast(enabled=False):
+            feats_list = dinov2_vits14.get_intermediate_layers(img_t, n=1)
+            feats_all = feats_list[0].squeeze(0)
+
+    H=W=int(feats_all.shape[0]**0.5)
+    feat_map=feats_all.reshape(H,W,-1).permute(2,0,1).unsqueeze(0)
+
+    return feat_map
 

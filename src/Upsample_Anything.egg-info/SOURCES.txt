@@ -1,0 +1,6 @@
+README.md
+pyproject.toml
+src/Upsample_Anything.egg-info/PKG-INFO
+src/Upsample_Anything.egg-info/SOURCES.txt
+src/Upsample_Anything.egg-info/dependency_links.txt
+src/Upsample_Anything.egg-info/top_level.txt

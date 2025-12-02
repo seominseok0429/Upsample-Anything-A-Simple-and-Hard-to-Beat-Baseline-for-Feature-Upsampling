@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Upsample_Anything"        
+version = "0.1.0"
+description = "My project"
+requires-python = ">=3.8"
+
+[tool.setuptools.packages.find]
+where = ["src"]
